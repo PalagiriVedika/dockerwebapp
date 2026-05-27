@@ -1,16 +1,27 @@
 ---
-version: "3"
+version: "3.9"
 services:
  devopsdb:
-   container_name: devopsdb
    image: harithasai/automation:db
    ports:
      - "3306:3306"
+   deploy:
+      replicas: 3
+   networks:
+      - mynetwork
 
  application:
-   container_name: appcontainer
    image: harithasai/automation:app
    ports:
      - "1234:8080"
+   deploy:
+      replicas: 3
+   networks:
+      - mynetwork
    depends_on:
      - "devopsdb"
+
+networks:
+   mynetwork:
+       driver: overlay
+   
